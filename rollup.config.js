@@ -1,9 +1,9 @@
-
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
-const { sandboxifyRollup } = require("../../sandbox/index.js");
+
+const { wrapSandboxRollup } = require('../../sandbox/index.js');
 const isProd = process.env.BUILD === 'production';
 
 const banner = `/*
@@ -24,12 +24,11 @@ const output = [
 		},
 		external: ['obsidian'],
 		plugins: [
-      sandboxifyRollup([]),
+			wrapSandboxRollup([]),
 			css({ output: 'styles.css' }),
 			typescript(),
-			nodeResolve({ browser: false }),
+			nodeResolve({ browser: true }),
 			commonjs(),
-			
 		],
 	},
 ];
